@@ -1,0 +1,24 @@
+﻿@model Bank_System.Models.BankAccount
+@{
+    ViewData["Title"] = "Новий рахунок";
+}
+
+<div class="container my-4" style="max-width: 500px;">
+    <h3>Відкриття банківського рахунку</h3>
+
+    <form asp-action="Create" method="post">
+        <div class="mb-3">
+            <label class="form-label">Оберіть клієнта</label>
+            <select asp-for="ClientId" class="form-select" asp-items="ViewBag.ClientId"></select>
+        </div>
+        <div class="mb-3">
+            <label asp-for="Currency" class="form-label"></label>
+            <select asp-for="Currency" class="form-select">
+                <option value="UAH">UAH</option>
+                <option value="USD">USD</option>
+                <option value="EUR">EUR</option>
+            </select>
+        </div>
+        <button type="submit" class="btn btn-primary w-100">Створити рахунок</button>
+    </form>
+</div>

@@ -1,0 +1,70 @@
+﻿@model Bank_System.ViewModels.DashboardViewModel
+@{
+    ViewData["Title"] = "Bank Dashboard";
+}
+
+<div class="container my-4">
+    <h2 class="mb-4 text-primary">Dashboard банківської системи</h2>
+
+    <div class="row g-4">
+        <div class="col-md-4">
+            <div class="card text-white bg-primary shadow-sm h-100">
+                <div class="card-body">
+                    <h5 class="card-title">Клієнти</h5>
+                    <h2 class="display-5 fw-bold">@Model.TotalClients</h2>
+                    <p class="card-text">Зареєстровано в системі</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="card text-white bg-info shadow-sm h-100">
+                <div class="card-body">
+                    <h5 class="card-title">Рахунки</h5>
+                    <h2 class="display-5 fw-bold">@Model.TotalAccounts</h2>
+                    <p class="card-text">Відкрито банківських рахунків</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="card text-white bg-secondary shadow-sm h-100">
+                <div class="card-body">
+                    <h5 class="card-title">Транзакції</h5>
+                    <h2 class="display-5 fw-bold">@Model.TotalTransactions</h2>
+                    <p class="card-text">Проведено банківських операцій</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="card text-white bg-success shadow-sm h-100">
+                <div class="card-body">
+                    <h5 class="card-title">Загальний баланс банку</h5>
+                    <h2 class="display-5 fw-bold">@Model.TotalBankBalance.ToString("N2") UAH</h2>
+                    <p class="card-text">Сума коштів на рахунках</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="card border-success text-success shadow-sm h-100">
+                <div class="card-body">
+                    <h5 class="card-title">Всього поповнень</h5>
+                    <h2 class="display-5 fw-bold">+@Model.TotalDepositedAmount.ToString("N2") UAH</h2>
+                    <p class="card-text">Загальна сума всіх вносів</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="card border-danger text-danger shadow-sm h-100">
+                <div class="card-body">
+                    <h5 class="card-title">Всього зняттів</h5>
+                    <h2 class="display-5 fw-bold">-@Model.TotalWithdrawnAmount.ToString("N2") UAH</h2>
+                    <p class="card-text">Загальна сума всіх зняттів</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

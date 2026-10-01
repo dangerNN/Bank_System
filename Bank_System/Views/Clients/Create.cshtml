@@ -1,0 +1,27 @@
+﻿@model Bank_System.Models.Client
+@{
+    ViewData["Title"] = "Новий клієнт";
+}
+
+<div class="container my-4" style="max-width: 500px;">
+    <h3>Створення клієнта</h3>
+
+    <form asp-action="Create" method="post">
+        <div class="mb-3">
+            <label asp-for="FirstName" class="form-label"></label>
+            <input asp-for="FirstName" class="form-control" />
+            <span asp-validation-for="FirstName" class="text-danger"></span>
+        </div>
+        <div class="mb-3">
+            <label asp-for="LastName" class="form-label"></label>
+            <input asp-for="LastName" class="form-control" />
+            <span asp-validation-for="LastName" class="text-danger"></span>
+        </div>
+        <div class="mb-3">
+            <label asp-for="Email" class="form-label"></label>
+            <input asp-for="Email" class="form-control" />
+            <span asp-validation-for="Email" class="text-danger"></span>
+        </div>
+        <button type="submit" class="btn btn-primary w-100">Зареєструвати</button>
+    </form>
+</div>

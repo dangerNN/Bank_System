@@ -1,0 +1,100 @@
+﻿@model Bank_System.ViewModels.AccountDetailsViewModel
+@{
+    ViewData["Title"] = "Деталі рахунку";
+}
+
+<div class="container my-4">
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <h2>Рахунок № @Model.Account.AccountNumber</h2>
+        <div>
+            <a asp-action="Deposit" asp-route-id="@Model.Account.Id" class="btn btn-success me-2">Поповнити</a>
+            <a asp-action="Withdraw" asp-route-id="@Model.Account.Id" class="btn btn-danger">Зняти кошти</a>
+        </div>
+    </div>
+
+    <div class="card mb-4 bg-light shadow-sm">
+        <div class="card-body">
+            <h5 class="card-title border-bottom pb-2">Інформація про рахунок</h5>
+            <div class="row">
+                <div class="col-md-4">
+                    <p><strong>Власник:</strong> @Model.Account.Client?.FullName</p>
+                    <p><strong>Email:</strong> @Model.Account.Client?.Email</p>
+                </div>
+                <div class="col-md-4">
+                    <p><strong>Баланс:</strong> <span class="fs-4 text-primary fw-bold">@Model.Account.Balance.ToString("N2") @Model.Account.Currency</span></p>
+                    <p><strong>Кількість операцій:</strong> @Model.TotalTransactionsCount</p>
+                </div>
+                <div class="col-md-4">
+                    <p><strong>Сума всіх поповнень:</strong> <span class="text-success fw-bold">+@Model.TotalDepositsSum.ToString("N2") @Model.Account.Currency</span></p>
+                    <p><strong>Сума всіх зняттів:</strong> <span class="text-danger fw-bold">-@Model.TotalWithdrawalsSum.ToString("N2") @Model.Account.Currency</span></p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <h4 class="mb-3">Історія операцій</h4>
+    <form method="get" class="row g-3 mb-4 align-items-end">
+        <input type="hidden" name="id" value="@Model.Account.Id" />
+
+        <div class="col-md-4">
+            <label class="form-label">Пошук за датою:</label>
+            <input type="date" name="searchDate" value="@(Model.SearchDate?.ToString("yyyy-MM-dd"))" class="form-control" />
+        </div>
+
+        <div class="col-md-4">
+            <label class="form-label">Фільтр за типом:</label>
+            <select name="filterType" class="form-select">
+                <option value="">Усі операції</option>
+                <option value="Deposit" selected="@(Model.FilterType == Bank_System.Models.TransactionType.Deposit)">Поповнення</option>
+                <option value="Withdrawal" selected="@(Model.FilterType == Bank_System.Models.TransactionType.Withdrawal)">Зняття</option>
+            </select>
+        </div>
+
+        <div class="col-md-4">
+            <button type="submit" class="btn btn-primary me-2">Застосувати</button>
+            <a asp-action="Details" asp-route-id="@Model.Account.Id" class="btn btn-outline-secondary">Скинути</a>
+        </div>
+    </form>
+
+    <table class="table table-striped table-hover align-middle">
+        <thead class="table-dark">
+            <tr>
+                <th>Дата та час</th>
+                <th>Тип</th>
+                <th>Опис</th>
+                <th class="text-end">Сума</th>
+            </tr>
+        </thead>
+        <tbody>
+            @if (!Model.Transactions.Any())
+            {
+                <tr>
+                    <td colspan="4" class="text-center text-muted">Операцій не знайдено</td>
+                </tr>
+            }
+            else
+            {
+                @foreach (var t in Model.Transactions)
+                {
+                    <tr>
+                        <td>@t.Date.ToString("dd.MM.yyyy HH:mm")</td>
+                        <td>
+                            @if (t.Type == Bank_System.Models.TransactionType.Deposit)
+                            {
+                                <span class="badge bg-success">Поповнення</span>
+                            }
+                            else
+                            {
+                                <span class="badge bg-danger">Зняття</span>
+                            }
+                        </td>
+                        <td>@t.Description</td>
+                        <td class="text-end font-monospace fw-bold @(t.Type == Bank_System.Models.TransactionType.Deposit ? "text-success" : "text-danger")">
+                            @(t.Type == Bank_System.Models.TransactionType.Deposit ? "+" : "-")@t.Amount.ToString("N2") @Model.Account.Currency
+                        </td>
+                    </tr>
+                }
+            }
+        </tbody>
+    </table>
+</div>
